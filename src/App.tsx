@@ -4,7 +4,7 @@ import { useTonConnect } from './hooks/useTonConnect';
 import { useCounterContract } from './hooks/useCounterContract';
 
 function App() {
-  const { sender,connected } = useTonConnect();
+  const { connected } = useTonConnect();
   //console.log(sender,connected);
   const { value, address, sendIncrement } = useCounterContract();
 
