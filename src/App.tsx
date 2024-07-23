@@ -1,20 +1,19 @@
-import initDataUnsafe from "@twa-dev/sdk";
 import WebApp from "@twa-dev/sdk";
 import "./App.css";
 import { TonConnectButton } from "@tonconnect/ui-react";
-import { useTonConnect } from "./hooks/useTonConnect";
+//import { useTonConnect } from "./hooks/useTonConnect";
 import { useEffect, useState } from "react";
 
 function App() {
-  const { connected } = useTonConnect();
+  //const { connected } = useTonConnect();
   const [isMiniApp, setIsMiniApp] = useState(false);
-  const [loginData, setLoginData] = useState(null);
+  //const [loginData, setLoginData] = useState(null);
 
   useEffect(() => {
     //console.log("WebApp:", WebApp);
     if (WebApp.initData) {
       setIsMiniApp(true);
-      const initData = WebApp.initData;
+      //const initData = WebApp.initData;
       const initDataParsed = WebApp.initDataUnsafe;
 
       if (initDataParsed && initDataParsed.user?.username) {
