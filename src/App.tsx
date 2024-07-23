@@ -1,40 +1,66 @@
-import './App.css';
-import { TonConnectButton } from '@tonconnect/ui-react';
-import { useTonConnect } from './hooks/useTonConnect';
-import { useCounterContract } from './hooks/useCounterContract';
-import '@twa-dev/sdk';
+import initDataUnsafe from "@twa-dev/sdk";
+import WebApp from "@twa-dev/sdk";
+import "./App.css";
+import { TonConnectButton } from "@tonconnect/ui-react";
+import { useTonConnect } from "./hooks/useTonConnect";
+import { useEffect, useState } from "react";
 
 function App() {
   const { connected } = useTonConnect();
-  //console.log(sender,connected);
-  const { value, address, sendIncrement } = useCounterContract();
+  const [isMiniApp, setIsMiniApp] = useState(false);
+  const [loginData, setLoginData] = useState(null);
+
+  useEffect(() => {
+    //console.log("WebApp:", WebApp);
+    if (WebApp.initData) {
+      setIsMiniApp(true);
+      const initData = WebApp.initData;
+      const initDataParsed = WebApp.initDataUnsafe;
+
+      if (initDataParsed && initDataParsed.user?.username) {
+        WebApp.showAlert(initDataParsed.user.username);
+        //setLoginData(user);
+        // 发送登录信息到后端
+        // fetch("/api/login", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify(user),
+        // })
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     console.log("Login info sent:", data);
+        //   })
+        //   .catch((error) => {
+        //     console.error("Error sending login info:", error);
+        //   });
+      }
+    } else {
+      //console.log("WebApp:", WebApp);
+    }
+  }, []);
 
   return (
-    <div className='App'>
-      <div className='Container'>
-        <TonConnectButton />
-
-        <div className='Card'>
-          <b>Counter Address</b>
-          <div className='Hint'>{address?.slice(0, 30) + '...'}</div>
-        </div>
-
-        <div className='Card'>
-          <b>Counter Value</b>
-          <div>{value ?? 'Loading...'}</div>
-        </div>
-
-        <a
-          className={`Button ${connected ? 'Active' : 'Disabled'}`}
-          onClick={() => {
-            sendIncrement();
-          }}
-        >
-          Increment
-        </a>
+    <div className="App">
+      <div className="Container">
+        {isMiniApp ? (
+          loginData ? (
+            <div>
+              <h1>Welcome</h1>
+              <TonConnectButton />
+            </div>
+          ) : (
+            <div>Loading...</div>
+          )
+        ) : (
+          <div>
+            <h1>Please open this app in Telegram</h1>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-export default App
+export default App;
