@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 function App() {
   //const { connected } = useTonConnect();
   const [isMiniApp, setIsMiniApp] = useState(false);
-  //const [loginData, setLoginData] = useState(null);
+  const [loginData, setLoginData] = useState(false);
 
   useEffect(() => {
     //console.log("WebApp:", WebApp);
@@ -18,7 +18,8 @@ function App() {
 
       if (initDataParsed && initDataParsed.user?.username) {
         WebApp.showAlert(initDataParsed.user.username);
-        //setLoginData(user);
+
+        setLoginData(true);
         // 发送登录信息到后端
         // fetch("/api/login", {
         //   method: "POST",
